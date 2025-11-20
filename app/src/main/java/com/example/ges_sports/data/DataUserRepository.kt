@@ -5,7 +5,7 @@ import com.example.ges_sports.repository.UserRepository
 
 class DataUserRepository: UserRepository {
 
-        private val users = listOf(
+    private val users = mutableListOf(
             User(
                 id = 1,
                 nombre = "Ana Pérez",
@@ -41,14 +41,38 @@ class DataUserRepository: UserRepository {
                 password = "1234",
                 rol = "JUGADOR"
             )
-        )
+    )
 
-        override suspend fun getAllUsers(): List<User> {
+        /* Me devuelve el id para un nuevo usuario */
+    private fun getNewId(): Int {
+            return (users.maxOfOrNull { it.id } ?: 0) + 1
+        }
+
+    // Recibe un nuevo usuario y lo añade a la lista.
+    override suspend fun addUser(user: User): User {
+            var newId = getNewId()
+            val newUser = user.copy( id=newId)
+            users.add(newUser)
+            return newUser
+        }
+    override suspend fun getUserById(id: Int): User? {
+       return users.find{it.id == id}
+    }
+    override suspend fun updateUser(user: User): Boolean {
+        TODO("Not yet implemented")
+    }
+    override suspend fun deleteUser(id: Int): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getAllUsers(): List<User> {
             return users
         }
 
-        override suspend fun getUsersByRole(rol: String): List<User> =
+    override suspend fun getUsersByRole(rol: String): List<User> =
             users.filter { it.rol == rol }
+
+
 }
 
 
