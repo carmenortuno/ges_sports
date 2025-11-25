@@ -1,5 +1,6 @@
 package com.example.ges_sports.ui.backend.ges_user
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.lazy.LazyColumn
@@ -8,11 +9,13 @@ import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.ges_sports.data.DataUserRepository
+import com.example.ges_sports.models.UserRoles
 
 @Composable
 fun GesUserScreen(
@@ -34,26 +37,33 @@ fun GesUserScreen(
             }
         }
     )
+    //Lista de USAURIOS y el rol
     val users = viewModel.users
-
     val selectedRole = viewModel.selectedRole
 
     Column {
         // Aquí irían tus chips (Administrador deportivo, Entrenador, Árbitro, Jugador)
-        Row {
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
             // Chip "Todos"
             FilterChip(
                 selected = selectedRole == null,
                 onClick = { viewModel.onRoleSelected(null) },
                 label = { Text("Todos") }
             )
-            /*UserRoles.allRoles.forEach { role ->
+            UserRoles.allRoles.forEach { (roleKey, roleLabel) ->
                 FilterChip(
-                    selected = selectedRole == role,
-                    onClick = { viewModel.onRoleSelected(role) },
-                    label = { Text(role) }
+                    selected = selectedRole == roleKey,
+                    onClick = {
+                        val newRole = if (selectedRole == roleKey) null else roleKey
+                        //Llamamos a la función del viewModel para devolver la nueva Lista y que se cargue
+                        viewModel.onRoleSelected(newRole)
+                    },
+                    label = { Text(roleLabel) }
                 )
-            }*/
+            }
+
 
 
         }

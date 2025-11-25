@@ -10,25 +10,42 @@ import com.example.ges_sports.models.User
 import kotlinx.coroutines.launch
 
 class GesUserViewModel (val userRepository: UserRepository): ViewModel() {
-    var users by mutableStateOf<List<User>>(emptyList())
+    private var _users by mutableStateOf<List<User>>(emptyList())
+    val users: List<User> get() = _users
 
+    private var _selectedRole by mutableStateOf<String?>(null)
+    val selectedRole: String? get() = _selectedRole
 
-    var selectedRole by mutableStateOf<String?>(null)
-
-
-     init {
+    init {
+        //podemos utilizar directamente loadUsers()
         viewModelScope.launch {
-            users = userRepository.getAllUsers()
+            _users = userRepository.getAllUsers()
         }
-     }
-    fun onRoleSelected(rol: String?) {
-        selectedRole = rol
+    }
+
+    fun loadUsers(){
         viewModelScope.launch {
-            users = if (rol == null) {
+            if(_selectedRole==null){
+                _users=userRepository.getAllUsers()
+            }else{
+                _users=userRepository.getUsersByRole(_selectedRole!!)
+            }
+        }
+    }
+    fun onRoleSelected(rol: String?) {
+        _selectedRole = rol
+        viewModelScope.launch {
+            _users = if (rol == null) {
                 userRepository.getAllUsers()
             } else {
                 userRepository.getUsersByRole(rol)
             }
+        }
+    }
+    fun addUser(user: User){
+        viewModelScope.launch{
+            userRepository.addUser(user)
+            //recargar la lista
         }
     }
 }

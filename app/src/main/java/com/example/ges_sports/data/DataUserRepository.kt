@@ -59,10 +59,16 @@ class DataUserRepository: UserRepository {
        return users.find{it.id == id}
     }
     override suspend fun updateUser(user: User): Boolean {
-        TODO("Not yet implemented")
+        val index = users.indexOfFirst { it.id == user.id }
+        return if (index != -1) {
+            users[index] = user
+            true
+        } else {
+            false
+        }
     }
     override suspend fun deleteUser(id: Int): Boolean {
-        TODO("Not yet implemented")
+        return users.removeIf { it.id == id }
     }
 
     override suspend fun getAllUsers(): List<User> {
