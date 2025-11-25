@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.ges_sports.ui.backend.ges_user.AddUserScreen
 import com.example.ges_sports.ui.backend.ges_user.GesUserScreen
 import com.example.ges_sports.ui.home.HomeScreen
 import com.example.ges_sports.ui.login.LoginScreen
@@ -17,6 +18,8 @@ fun Navigation() {
     NavHost(navController = navController, startDestination = "gesuser") {
         composable("login") { LoginScreen(navController) }
         composable("gesuser") { GesUserScreen(navController = navController)}
+        composable("formuser") { AddUserScreen(navController = navController) }
+
         composable(
             route = "home/{nombre}",
             arguments = listOf(navArgument("nombre") { type = NavType.StringType })

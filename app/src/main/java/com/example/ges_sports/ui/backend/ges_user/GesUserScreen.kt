@@ -56,12 +56,7 @@ fun GesUserScreen(
         containerColor = Color.Transparent,
         floatingActionButton = {
             FloatingActionButton(
-                onClick = {
-                    // Aquí lo que tú quieras:
-                    // abrir diálogo, navegar a pantalla de creación, etc.
-                    // Ejemplo:
-                    // navController.navigate("addUser")
-                },
+                onClick = { navController.navigate("formuser") },
                 containerColor = Color.Black,
                 contentColor = Color.White
             ) {
