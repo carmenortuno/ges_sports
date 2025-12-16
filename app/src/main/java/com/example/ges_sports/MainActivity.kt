@@ -43,7 +43,7 @@ class MainActivity : ComponentActivity() {
                                     )
                                 )
                             )
-                            .padding(16.dp) // padding general de la app
+                            .padding(0.dp) // padding general de la app
                     ) {
                         Navigation()
                     }

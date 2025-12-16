@@ -45,7 +45,7 @@ class GesUserViewModel (val userRepository: UserRepository): ViewModel() {
     fun addUser(user: User){
         viewModelScope.launch{
             userRepository.addUser(user)
-            //recargar la lista
+            loadUsers()
         }
     }
 }

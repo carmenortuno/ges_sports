@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
@@ -23,15 +24,17 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import com.example.ges_sports.data.DataUserRepository
+import androidx.compose.ui.platform.LocalContext
+import com.example.ges_sports.data.JsonUserRepository
 import com.example.ges_sports.models.UserRoles
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GesUserScreen(
-    navController: NavHostController
+    navController: NavHostController,
+    viewModel : ViewModel
 )  {
-    // 1) Le pido a Compose el contexto actual (por si lo necesitáramos)
     val context = LocalContext.current
     // 2) Creo el ViewModel indicándole una factory
     val viewModel: GesUserViewModel = viewModel(
@@ -40,7 +43,7 @@ fun GesUserScreen(
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
 
                 // 2.1) Aquí decido cómo construir el REPOSITORIO
-                val repo = DataUserRepository()
+                val repo = JsonUserRepository(context)
 
                 // 2.2) Aquí decido cómo construir el VIEWMODEL
                 return GesUserViewModel(repo) as T
